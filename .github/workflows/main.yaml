@@ -45,5 +45,5 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: execute py script 
+      - name: execute script 
         run: python3 bot/gh_actions.py
