@@ -1,4 +1,4 @@
-name: Run bot/main.py
+name: Run bot/openresa.py
 
 on:
   # schedule:
@@ -27,4 +27,4 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: execute py script 
-        run: python3 bot/main.py
+        run: python3 bot/openresa.py
