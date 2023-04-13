@@ -7,7 +7,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      ## Environment variable
+      USERNAME: "MEILHOC Jean"
+      PASSWORD: "Selenium1!"
     steps:
       - name: checkout repo content
         uses: actions/checkout@v2 
@@ -23,5 +26,3 @@ jobs:
           pip install -r requirements.txt
       - name: execute py script 
         run: python3 bot/main.py
-        env:
-          key: ${{ secrets.key }} 
