@@ -68,7 +68,7 @@ class BookingBot:
     def switch_url(self, date, court_id):
         """Switch to the booking page"""
         scheduled_url = self.config.URL_SCHEDULED.format(date=date, court_id=court_id)
-        logger.info("Switch URL:", scheduled_url) 
+        logger.info(scheduled_url) 
         while self.driver.current_url != scheduled_url:
             self.driver.get(scheduled_url)
 
@@ -79,7 +79,7 @@ class BookingBot:
     def select_partners(self, offset_from_element, list_coordinates):
         """Select members (minimum 2)"""
         # Wait for search bar to be loaded
-        logger.info("From `select_partners()`, current URL:", self.driver.current_url) 
+        logger.info(self.driver.current_url) 
         WebDriverWait(
             self.driver, 5
         ).until(
