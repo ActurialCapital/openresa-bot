@@ -1,6 +1,5 @@
 import logging
 from datetime import datetime, timedelta
-from tzlocal import get_localzone
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 from selenium import webdriver
@@ -64,9 +63,7 @@ class BookingBot:
         """Submit booking"""
         self.driver.find_element(by=By.XPATH, value=self.config.SUBMIT_BUTTON).click()
 
-sched = BlockingScheduler(timezone=str(get_localzone())) #'utc'
-@sched.scheduled_job('cron', id='main', day_of_week='mon-fri', hour=14, minute=59, second=59)
-def main():
+def main(Config, club_name, date, court_id):
     # Launch the Chrome browser
     with webdriver.Chrome() as driver:
         try:
@@ -98,4 +95,4 @@ if __name__ == "__main__":
     date = tomorrow.strftime("%d/%m/%Y")
     court_id = '48097'
 
-    sched.start()
+    main(Config, club_name, date, court_id)
