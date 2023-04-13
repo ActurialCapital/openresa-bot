@@ -1,4 +1,4 @@
-name: Run bot/openresa.py
+name: Run bot/gh_actions.py
 
 on:
   # schedule:
@@ -46,4 +46,4 @@ jobs:
           pip install -r requirements.txt
 
       - name: execute py script 
-        run: python3 bot/openresa.py
+        run: python3 bot/gh_actions.py
