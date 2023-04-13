@@ -7,8 +7,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from bot.utils import mouseover_coordinates
-from bot.config import Config
+from utils import mouseover_coordinates
+from config import Config
 
 logger = logging.getLogger()
 logging.basicConfig(level=logging.INFO)
