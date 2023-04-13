@@ -8,6 +8,8 @@ authors = ["DanaPointCapital"]
 python = "^3.9"
 selenium = "^4.8.3"
 APScheduler = "^3.10.1"
+chromedriver-autoinstaller = "^0.4.0"
+PyVirtualDisplay = "^3.0"
 
 [tool.poetry.dev-dependencies]
 mypy = "*"
