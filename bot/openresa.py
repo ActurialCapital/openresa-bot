@@ -30,7 +30,6 @@ options = [
   # Define window size here
    "--window-size=1200,1200",
     "--ignore-certificate-errors"
- 
     #"--headless",
     #"--disable-gpu",
     #"--window-size=1920,1200",
@@ -52,11 +51,14 @@ class BookingBot:
 
     def open_session(self, club_name):
         """First step, open session via URL"""
-        self.driver.get(self.config.URL.format(club_name=club_name))
+        url = self.config.URL.format(club_name=club_name)
+        logger.info(url) 
+        self.driver.get(url)
 
     def login(self):
         """Login website"""
         # Enter login credentials
+        logger.info("Login:", self.config.USERNAME, self.config.PASSWORD) 
         self.driver.find_element(by=By.XPATH, value=self.config.USERNAME_INPUT).send_keys(self.config.USERNAME)
         # Enter passward
         self.driver.find_element(by=By.XPATH, value=self.config.PASSWORD_INPUT).send_keys(self.config.PASSWORD)
@@ -66,6 +68,7 @@ class BookingBot:
     def switch_url(self, date, court_id):
         """Switch to the booking page"""
         scheduled_url = self.config.URL_SCHEDULED.format(date=date, court_id=court_id)
+        logger.info("Switch URL:", scheduled_url) 
         while self.driver.current_url != scheduled_url:
             self.driver.get(scheduled_url)
 
@@ -76,6 +79,7 @@ class BookingBot:
     def select_partners(self, offset_from_element, list_coordinates):
         """Select members (minimum 2)"""
         # Wait for search bar to be loaded
+        logger.info("From `select_partners()`, current URL:", self.driver.current_url) 
         WebDriverWait(
             self.driver, 5
         ).until(
