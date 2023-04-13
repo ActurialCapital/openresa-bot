@@ -108,6 +108,7 @@ class BookingBot:
 
     def submit(self):
         """Submit booking"""
+        # TODO : Add a timer to wait for the booking to be available
         self.driver.find_element(by=By.XPATH, value=self.config.SUBMIT_BUTTON).click()
 
 def main(Config, club_name, date, court_id):

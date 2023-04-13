@@ -1,8 +1,4 @@
-import logging
 from datetime import datetime, timedelta
-import chromedriver_autoinstaller
-from pyvirtualdisplay import Display
-
 from config import Config
 from openresa import main
 

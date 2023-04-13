@@ -3,8 +3,6 @@ from dataclasses import dataclass
 @dataclass
 class Config:
     URL = "https://ballejaune.com/club/{club_name}"
-    USERNAME = "MEILHOC Jean"
-    PASSWORD = "Selenium1!"
     USERNAME_INPUT = '//*[@id="form-username"]'
     PASSWORD_INPUT = '//*[@id="form-password"]'
     CONNECTION_BUTTON = '//*[@id="auth-form"]/div[4]/div[2]/button'
