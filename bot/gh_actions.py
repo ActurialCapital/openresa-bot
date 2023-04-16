@@ -8,7 +8,7 @@ if __name__ == "__main__":
     club_name = "les-pyramides"
     date = tomorrow.strftime("%d/%m/%Y")
     court_id = '48097'
-    hour = 16
+    hour = 17
     minute = 30
     second = 0 
     timezone = 'Europe/Paris'
