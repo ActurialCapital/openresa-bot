@@ -55,8 +55,9 @@ class BookingBot:
             self.driver.get(scheduled_url)
         logger.info(f'Connection to {scheduled_url}.') 
 
-    def select_slots(self, offset_from_element, coordinates):
+    def select_slots(self, slot, offset_from_element):
         """Book court with x and y coordinates"""
+        coordinates = Config.SLOTS[slot]
         mouseover_coordinates(self.driver, offset_from_element, coordinates)
         logger.info(f'Slot selected.') 
 
@@ -96,7 +97,16 @@ class BookingBot:
         logger.info(f'Job running at{run_date} in progress...')
         sched.start() 
 
-def main(club_name: str, date: str, court_id: str, hour: int, minute: int, second: int, timezone: str):
+def main(
+        club_name: str, 
+        date: str, 
+        court_id: str,
+        slot: str, 
+        hour: int, 
+        minute: int, 
+        second: int,
+        timezone: str
+):
     # Launch the Chrome browser
     with webdriver.Chrome(options = chrome_options) as driver:
         try:
@@ -109,7 +119,7 @@ def main(club_name: str, date: str, court_id: str, hour: int, minute: int, secon
             # Switch booking slots page
             self.switch_url(date, court_id)
             # Slot page
-            self.select_slots(offset_from_element=(By.ID, 'widget-home'), coordinates=(200, 445))
+            self.select_slots(slot, offset_from_element=(By.ID, 'widget-home'))
             # Partners page?
             if self.driver.current_url != Config.URL_PARTNERS:
                 logger.info(f'Connection failed to reach the partners page. Court {court_id} is currently not available.') 
