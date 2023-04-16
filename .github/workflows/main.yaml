@@ -45,5 +45,5 @@ jobs:
           pip install -r requirements.txt
 
       # exec script
-      - name: execute script 
+      - name: Execute script 
         run: python3 bot/gh_actions.py

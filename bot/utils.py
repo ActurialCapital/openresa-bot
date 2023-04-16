@@ -1,15 +1,60 @@
-from selenium.webdriver.common.action_chains import ActionChains
 
-def mouseover_coordinates(driver, offset_from_element, coordinates):
-    """Locate items with coordinates"""
-    # Chain actions
-    actions = ActionChains(driver)
-    # Initial coordinates
-    base_coordinates = driver.find_element(offset_from_element[0], offset_from_element[1])
-    xi, yi = base_coordinates.location["x"], base_coordinates.location["y"]
-    # Offset from base coordinates
-    actions.move_to_element_with_offset(base_coordinates, -xi, -yi)
-    # Move and click to located point
-    actions.move_by_offset(coordinates[0], coordinates[1]).click()
-    # Do all the above
-    actions.perform()
+########################
+# Logging functionality
+########################
+
+import logging 
+
+class FilterLogging(object):
+    def __init__(self, level):
+        self.__level = level
+
+    def filter(self, logRecord):
+        return logRecord.levelno <= self.__level
+    
+def logging_options():
+    # Create a logger
+    logger = logging.getLogger('bot - logs')
+    logger.setLevel(logging.INFO)
+    handler = logging.FileHandler('logs.log')
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+
+    # Set filter to log only INFO lines
+    handler.addFilter(FilterLogging(logging.INFO))
+    logger.addHandler(handler)
+    
+    return logger
+
+#######################
+# Chrome functionality
+#######################
+
+from selenium import webdriver
+import chromedriver_autoinstaller
+from pyvirtualdisplay import Display
+
+def chrome_options():
+    """Set chrome options"""
+    display = Display(visible=0, size=(800, 800))  
+    display.start()
+    # Check if the current version of chromedriver exists
+    # and if it doesn't exist, download it automatically,
+    # then add chromedriver to path
+    chromedriver_autoinstaller.install()  
+    # Create a new instance of Chrome
+    chrome_options = webdriver.ChromeOptions()    
+    # Add your options as needed    
+    for option in [
+            "--window-size=1200,1200", #"--window-size=1920,1200",
+            "--ignore-certificate-errors"
+            #"--headless",
+            #"--disable-gpu",
+            #"--disable-extensions",
+            #"--no-sandbox",
+            #"--disable-dev-shm-usage",
+            #'--remote-debugging-port=9222'
+        ]:
+        chrome_options.add_argument(option)
+
+    return chrome_options

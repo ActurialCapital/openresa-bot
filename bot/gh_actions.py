@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from config import Config
 from openresa import main
 
 if __name__ == "__main__":
@@ -9,5 +8,9 @@ if __name__ == "__main__":
     club_name = "les-pyramides"
     date = tomorrow.strftime("%d/%m/%Y")
     court_id = '48097'
+    hour = 16
+    minute = 25
+    second = 0 
+    timezone = 'Europe/Paris'
 
-    main(Config, club_name, date, court_id)
+    main(club_name, date, court_id, hour, minute, second, timezone)
