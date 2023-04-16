@@ -58,7 +58,7 @@ class BookingBot:
     def select_slots(self, offset_from_element, coordinates):
         """Book court with x and y coordinates"""
         mouseover_coordinates(self.driver, offset_from_element, coordinates)
-        logger.info(f'Connection to {self.driver.current_url}.') 
+        logger.info(f'Slot selected.') 
 
     def select_partners(self, offset_from_element, list_coordinates):
         """Select members (minimum 2)"""
@@ -110,7 +110,10 @@ def main(club_name: str, date: str, court_id: str, hour: int, minute: int, secon
             self.switch_url(date, court_id)
             # Slot page
             self.select_slots(offset_from_element=(By.ID, 'widget-home'), coordinates=(200, 445))
-            # Partners
+            # Partners page?
+            if self.driver.current_url != Config.URL_PARTNERS:
+                logger.info(f'Connection failed to reach the partners page. Court {court_id} is currently not available.') 
+            # Select partners
             self.select_partners(offset_from_element=(By.ID, 'widget-menu'), list_coordinates=[(400, 238), (548, 322)])
             # scheduled booking and submit
             self.scheduled_submit(hour, minute, second, timezone)
