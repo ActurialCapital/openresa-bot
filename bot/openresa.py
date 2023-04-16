@@ -113,12 +113,15 @@ def main(club_name: str, date: str, court_id: str, hour: int, minute: int, secon
             # Partners page?
             if self.driver.current_url != Config.URL_PARTNERS:
                 logger.info(f'Connection failed to reach the partners page. Court {court_id} is currently not available.') 
-            # Select partners
-            self.select_partners(offset_from_element=(By.ID, 'widget-menu'), list_coordinates=[(400, 238), (548, 322)])
-            # scheduled booking and submit
-            self.scheduled_submit(hour, minute, second, timezone)
-            # log
-            logger.info('Success! Booking done.') 
+                # Stop the bot
+                logger.info('OOOPS! Booking failed.')
+            else:
+                # Select partners
+                self.select_partners(offset_from_element=(By.ID, 'widget-menu'), list_coordinates=[(400, 238), (548, 322)])
+                # scheduled booking and submit
+                self.scheduled_submit(hour, minute, second, timezone)
+                # log
+                logger.info('Success! Booking done.') 
 
         except Exception:
             logger.info('OOOPS! Booking failed.')
