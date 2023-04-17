@@ -9,7 +9,7 @@ if __name__ == "__main__":
     date = tomorrow.strftime("%d/%m/%Y")
     slot = '17:00-18:30'
     court_id = '48097'
-    hour = 17
+    hour = 15
     minute = 40
     second = 0 
     timezone = 'Europe/Paris'

@@ -84,13 +84,13 @@ class BookingBot:
     def submit(self):
         """Submit booking"""
         # Submit booking
-        self.driver.find_element(by=By.XPATH, value=Config.SUBMIT_BUTTON).click()
+        self.driver.find_element(by=By.XPATH, value=Config.SUBMIT_BUTTON_XPATH).click()
         logger.info('Booking submitted.')
 
     def scheduled_submit(self, hour=17, minute=0, second=0, timezone='Europe/Paris'):
         """Submit booking"""
         # Add a timer to wait for the booking to be available
-        run_date = datetime.combine(date.today(), time(hour=hour, minute=minute, second=second))
+        run_date = datetime.combine(datetime.today(), time(hour=hour, minute=minute, second=second))
         sched = BlockingScheduler(timezone=timezone)
         sched.add_job(self.submit, run_date=run_date)
         # Starts the Scheduled jobs
@@ -110,6 +110,7 @@ def main(
     # Launch the Chrome browser
     with webdriver.Chrome(options = chrome_options) as driver:
         try:
+            # driver = webdriver.Chrome()
             # Initialize bot
             self = BookingBot(driver)
             # Open session
@@ -121,7 +122,7 @@ def main(
             # Slot page
             self.select_slots(slot, offset_from_element=(By.ID, 'widget-home'))
             # Partners page?
-            if self.driver.current_url != Config.URL_PARTNERS:
+            if self.driver.current_url != Config.URL_PARTNERS.format(date=date, court_id=court_id):
                 logger.info(f'Connection failed to reach the partners page. Court {court_id} is currently not available.') 
                 # Stop the bot
                 logger.info('OOOPS! Booking failed.')
@@ -135,3 +136,4 @@ def main(
 
         except Exception:
             logger.info('OOOPS! Booking failed.')
+
