@@ -1,9 +1,9 @@
 name: Run bot/gh_actions.py
 
 on:
-  # schedule:
-    # - cron: "33 19 * * *"
-  push
+  schedule:
+    - cron: "28 17 * * *" # 17:28 'UTC' = 19:28 'Europe/Paris' time
+
 env:
   ## Environment variable
   USERNAME: "MEILHOC Jean"

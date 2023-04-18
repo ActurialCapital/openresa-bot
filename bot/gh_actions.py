@@ -7,10 +7,10 @@ if __name__ == "__main__":
     tomorrow = datetime.today() + timedelta(days=1)
     club_name = "les-pyramides"
     date = tomorrow.strftime("%d/%m/%Y")
-    slot = '17:00-18:30'
+    slot = '14:00-15:30'
     court_id = '48097'
-    hour = 15
-    minute = 40
+    hour = 19
+    minute = 30
     second = 0 
     timezone = 'Europe/Paris'
 

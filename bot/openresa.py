@@ -10,7 +10,7 @@ from utils import logging_options, chrome_options
 from config import Config
 
 logger = logging_options()
-chrome_options = chrome_options()
+# chrome_options = chrome_options()
 
 def mouseover_coordinates(driver, offset_from_element, coordinates):
     """Locate items with coordinates"""
@@ -108,7 +108,8 @@ def main(
         timezone: str
 ):
     # Launch the Chrome browser
-    with webdriver.Chrome(options = chrome_options) as driver:
+    # with webdriver.Chrome(options = chrome_options) as driver:
+    with webdriver.Chrome() as driver:
         try:
             # driver = webdriver.Chrome()
             # Initialize bot
