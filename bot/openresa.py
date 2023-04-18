@@ -108,8 +108,7 @@ def main(
         timezone: str
 ):
     # Launch the Chrome browser
-    # with webdriver.Chrome(options = chrome_options) as driver:
-    with webdriver.Chrome() as driver:
+    with webdriver.Chrome(options = chrome_options) as driver:
         try:
             # driver = webdriver.Chrome()
             # Initialize bot
