@@ -1,22 +1,21 @@
 name: Run Week
 
 on:
-  # schedule:
-  #   - cron: "58 14 * * 0-4" # “At 14:58 on every day-of-week from Monday through Thursday.”
-  #                           # = 16:58 'Europe/Paris' time
-  push
+  schedule:
+    - cron: "58 14 * * 0-4" # “At 14:58 on every day-of-week from Monday through Thursday.”
+                            # = 16:58 'Europe/Paris' time
+
+# set our environment variables
+env:
+  ## Environment variable
+  USERNAME: ${{ secrets.USERNAME }}
+  PASSWORD: ${{ secrets.PASSWORD }}
     
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
-    # set our environment variables
-    env:
-      ## Environment variable
-      USERNAME: "MEILHOC Jean"
-      PASSWORD: "Selenium1!"
-  
     steps:
       - name: checkout repo content
         uses: actions/checkout@v3

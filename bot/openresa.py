@@ -1,4 +1,4 @@
-from datetime import datetime, date, time
+from datetime import datetime, time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait

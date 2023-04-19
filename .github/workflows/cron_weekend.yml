@@ -5,6 +5,12 @@ on:
     - cron: "28 17 * * 5-6" # “At 17:28 on every day-of-week from Friday through Saturday.”
                             # = 19:28 'Europe/Paris' time
 
+# set our environment variables
+env:
+  ## Environment variable
+  USERNAME: ${{ secrets.USERNAME }}
+  PASSWORD: ${{ secrets.PASSWORD }}
+
 jobs:
   build:
 
@@ -49,4 +55,4 @@ jobs:
 
       # exec script
       - name: Execute script 
-        run: python3 bot/jobs/bot_weekend.py
+        run: python3 bot/bot_weekend.py
