@@ -1,4 +1,4 @@
-name: Run bot/gh_actions.py
+name: Run WeekEnd
 
 on:
   schedule:
@@ -49,4 +49,4 @@ jobs:
 
       # exec script
       - name: Execute script 
-        run: python3 bot/gh_actions.py
+        run: python3 bot/jobs/bot_weekend.py
