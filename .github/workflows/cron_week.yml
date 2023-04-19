@@ -50,4 +50,4 @@ jobs:
 
       # exec script
       - name: Execute script 
-        run: python3 bot/jobs/bot_week.py
+        run: python3 bot/bot_week.py

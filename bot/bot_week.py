@@ -10,7 +10,7 @@ if __name__ == "__main__":
     slot = '14:00-15:30'
     court_id = '48097'
     hour = 17
-    minute = 22
+    minute = 23
     second = 0 
     timezone = 'Europe/Paris'
 
