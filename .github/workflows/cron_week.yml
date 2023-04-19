@@ -1,10 +1,11 @@
 name: Run Week
 
 on:
-  schedule:
-    - cron: "58 14 * * 0-4" # “At 14:58 on every day-of-week from Monday through Thursday.”
-                            # = 16:58 'Europe/Paris' time
-
+  # schedule:
+  #   - cron: "58 14 * * 0-4" # “At 14:58 on every day-of-week from Monday through Thursday.”
+  #                           # = 16:58 'Europe/Paris' time
+  push
+    
 jobs:
   build:
 
