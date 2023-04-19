@@ -6,16 +6,16 @@ on:
   #                           # = 16:58 'Europe/Paris' time
   push
     
-# set our environment variables
-env:
-  ## Environment variable
-  USERNAME: ${{ secrets.USERNAME }}
-  PASSWORD: ${{ secrets.PASSWORD }}
-
 jobs:
   build:
 
     runs-on: ubuntu-latest
+
+    # set our environment variables
+    env:
+      ## Environment variable
+      USERNAME: "MEILHOC Jean"
+      PASSWORD: "Selenium1!"
   
     steps:
       - name: checkout repo content
