@@ -16,12 +16,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    # set our environment variables
-    env:
-      ## Environment variable
-      USERNAME: ${{ secrets.USERNAME }}
-      PASSWORD: ${{ secrets.PASSWORD }}
-  
     steps:
       - name: checkout repo content
         uses: actions/checkout@v3
