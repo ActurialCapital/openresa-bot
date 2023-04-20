@@ -2,8 +2,8 @@ name: Run WeekEnd
 
 on:
   schedule:
-    - cron: "28 17 * * 5-6" # “At 17:28 on every day-of-week from Friday through Saturday.”
-                            # = 19:28 'Europe/Paris' time
+    - cron: "20 17 * * 5-6" # “At 17:20 on every day-of-week from Friday through Saturday.”
+                            # = 19:20 'Europe/Paris' time
 
 # set our environment variables
 env:
