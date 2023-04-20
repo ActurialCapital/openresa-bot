@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
-from openresa import main
+
+from bot.openresa import main
 
 if __name__ == "__main__":
     
@@ -7,10 +8,10 @@ if __name__ == "__main__":
     tomorrow = datetime.today() + timedelta(days=1)
     club_name = "les-pyramides"
     date = tomorrow.strftime("%d/%m/%Y")
-    slot = '14:00-15:30'
+    slot = '15:30-17:00'
     court_id = '48097'
-    hour = 19
-    minute = 30
+    hour = 17
+    minute = 0
     second = 0 
     timezone = 'Europe/Paris'
 

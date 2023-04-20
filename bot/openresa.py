@@ -10,7 +10,7 @@ from utils import logging_options, chrome_options
 from config import Config
 
 logger = logging_options()
-# chrome_options = chrome_options()
+chrome_options = chrome_options()
 
 def mouseover_coordinates(driver, offset_from_element, coordinates):
     """Locate items with coordinates"""
@@ -109,31 +109,32 @@ def main(
 ):
     # Launch the Chrome browser
     with webdriver.Chrome(options = chrome_options) as driver:
-        try:
-            # driver = webdriver.Chrome()
-            # Initialize bot
-            self = BookingBot(driver)
-            # Open session
-            self.open_session(club_name)
-            # Navigate to the login page
-            self.login()
-            # Switch booking slots page
-            self.switch_url(date, court_id)
-            # Slot page
-            self.select_slots(slot, offset_from_element=(By.ID, 'widget-home'))
-            # Partners page?
-            if self.driver.current_url != Config.URL_PARTNERS.format(date=date, court_id=court_id):
-                logger.info(f'Connection failed to reach the partners page. Court {court_id} is currently not available.') 
-                # Stop the bot
-                logger.info('OOOPS! Booking failed.')
-            else:
-                # Select partners
-                self.select_partners(offset_from_element=(By.ID, 'widget-menu'), list_coordinates=[(400, 238), (548, 322)])
-                # scheduled booking and submit
-                self.scheduled_submit(hour, minute, second, timezone)
-                # log
-                logger.info('Success! Booking done.') 
-
-        except Exception:
+    # with webdriver.Chrome(options = None) as driver:
+        # try:
+        # driver = webdriver.Chrome()
+        # Initialize bot
+        self = BookingBot(driver)
+        # Open session
+        self.open_session(club_name)
+        # Navigate to the login page
+        self.login()
+        # Switch booking slots page
+        self.switch_url(date, court_id)
+        # Slot page
+        self.select_slots(slot, offset_from_element=(By.ID, 'widget-home'))
+        # Partners page?
+        if self.driver.current_url != Config.URL_PARTNERS.format(date=date, court_id=court_id):
+            logger.info(f'Connection failed to reach the partners page. Court {court_id} is currently not available.') 
+            # Stop the bot
             logger.info('OOOPS! Booking failed.')
+        else:
+            # Select partners
+            self.select_partners(offset_from_element=(By.ID, 'widget-menu'), list_coordinates=[(400, 238), (548, 322)])
+            # scheduled booking and submit
+            self.scheduled_submit(hour, minute, second, timezone)
+            # log
+            logger.info('Success! Booking done.') 
+
+        # except Exception:
+        #     logger.info('OOOPS! Booking failed.')
 

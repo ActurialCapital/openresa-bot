@@ -1,9 +1,12 @@
 
+import logging 
+from selenium import webdriver
+import chromedriver_autoinstaller
+from pyvirtualdisplay import Display
+
 ########################
 # Logging functionality
 ########################
-
-import logging 
 
 class FilterLogging(object):
     def __init__(self, level):
@@ -29,10 +32,6 @@ def logging_options():
 #######################
 # Chrome functionality
 #######################
-
-from selenium import webdriver
-import chromedriver_autoinstaller
-from pyvirtualdisplay import Display
 
 def chrome_options():
     """Set chrome options"""
