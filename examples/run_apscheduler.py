@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 from bot.openresa import main
-from bot.config import Config
 
 sched = BlockingScheduler(timezone='Europe/Paris') # 'utc'
 @sched.scheduled_job('cron', id='main', day_of_week='mon-sat', hour=17, minute=00, second=00)

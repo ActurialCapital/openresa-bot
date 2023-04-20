@@ -49,4 +49,4 @@ jobs:
 
       # exec script
       - name: Execute script 
-        run: python3 jobs/jobs_week.py
+        run: python3 job_week.py

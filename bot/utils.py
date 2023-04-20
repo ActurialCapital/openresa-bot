@@ -35,25 +35,27 @@ def logging_options():
 
 def chrome_options():
     """Set chrome options"""
-    display = Display(visible=0, size=(800, 800))  
-    display.start()
-    # Check if the current version of chromedriver exists
-    # and if it doesn't exist, download it automatically,
-    # then add chromedriver to path
-    chromedriver_autoinstaller.install()  
-    # Create a new instance of Chrome
-    chrome_options = webdriver.ChromeOptions()    
-    # Add your options as needed    
-    for option in [
-            "--window-size=1200,1200", #"--window-size=1920,1200",
-            "--ignore-certificate-errors"
-            #"--headless",
-            #"--disable-gpu",
-            #"--disable-extensions",
-            #"--no-sandbox",
-            #"--disable-dev-shm-usage",
-            #'--remote-debugging-port=9222'
-        ]:
-        chrome_options.add_argument(option)
-
+    try:
+        display = Display(visible=0, size=(800, 800))  
+        display.start()
+        # Check if the current version of chromedriver exists
+        # and if it doesn't exist, download it automatically,
+        # then add chromedriver to path
+        chromedriver_autoinstaller.install()  
+        # Create a new instance of Chrome
+        chrome_options = webdriver.ChromeOptions()    
+        # Add your options as needed    
+        for option in [
+                "--window-size=1200,1200", #"--window-size=1920,1200",
+                "--ignore-certificate-errors"
+                #"--headless",
+                #"--disable-gpu",
+                #"--disable-extensions",
+                #"--no-sandbox",
+                #"--disable-dev-shm-usage",
+                #'--remote-debugging-port=9222'
+            ]:
+            chrome_options.add_argument(option)
+    except:
+        chrome_options = None
     return chrome_options

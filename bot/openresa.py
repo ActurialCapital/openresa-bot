@@ -6,8 +6,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from apscheduler.schedulers.blocking import BlockingScheduler
 
-from utils import logging_options, chrome_options
-from config import Config
+from bot.utils import logging_options, chrome_options
+from bot.config import Config
 
 logger = logging_options()
 chrome_options = chrome_options()
@@ -109,7 +109,6 @@ def main(
 ):
     # Launch the Chrome browser
     with webdriver.Chrome(options = chrome_options) as driver:
-    # with webdriver.Chrome(options = None) as driver:
         # try:
         # driver = webdriver.Chrome()
         # Initialize bot
