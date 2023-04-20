@@ -51,8 +51,12 @@ class BookingBot:
     def switch_url(self, date, court_id):
         """Switch to the booking page"""
         scheduled_url = Config.URL_SCHEDULED.format(date=date, court_id=court_id)
-        while self.driver.current_url != scheduled_url:
+        # Refresh page if not on the right page (x1)
+        self.driver.get(scheduled_url)
+        # Refresh page if not on the right page (x2)
+        if self.driver.current_url != scheduled_url:
             self.driver.get(scheduled_url)
+            
         logger.info(f'Connection to {scheduled_url}.') 
 
     def select_slots(self, slot, offset_from_element):
