@@ -22,9 +22,7 @@ def mouseover_coordinates(driver, offset_from_element, coordinates):
     # Offset from base coordinates
     actions.move_to_element_with_offset(base_coordinates, -xi, -yi)
     # Move and click to located point
-    actions.move_by_offset(coordinates[0], coordinates[1]).click()
-    # Do all the above
-    actions.perform()
+    actions.move_by_offset(coordinates[0], coordinates[1]).click().perform()
 
 class BookingBot:
     def __init__(self, driver):
@@ -33,8 +31,10 @@ class BookingBot:
     def open_session(self, club_name):
         """First step, open session via URL"""
         url = Config.URL.format(club_name=club_name)
-        logger.info(f'Connection to {url}.') 
         self.driver.get(url)
+        WebDriverWait(self.driver, 10).until(EC.url_matches(url))
+        logger.info(f'Connection to {url}.') 
+        logger.info(f'Login page loaded.') 
 
     def login(self):
         """Login website"""
@@ -56,8 +56,8 @@ class BookingBot:
         # Refresh page if not on the right page (x2)
         if self.driver.current_url != scheduled_url:
             self.driver.get(scheduled_url)
-            
         logger.info(f'Connection to {scheduled_url}.') 
+        logger.info(f'Slot page loaded.') 
 
     def select_slots(self, slot, offset_from_element):
         """Book court with x and y coordinates"""
@@ -65,17 +65,18 @@ class BookingBot:
         mouseover_coordinates(self.driver, offset_from_element, coordinates)
         logger.info(f'Slot selected.') 
 
+    def wait_partner_page_loaded(self, date, court_id):
+        url = Config.URL_PARTNERS.format(date=date, court_id=court_id)
+        WebDriverWait(self.driver, 10).until(EC.url_matches(url))
+        logger.info('Partners page loaded.') 
+
     def select_partners(self, offset_from_element, list_coordinates):
         """Select members (minimum 2)"""
         # Wait for search bar to be loaded
-        logger.info('Waiting for search bar to be loaded.') 
-        WebDriverWait(
-            self.driver, 5
-        ).until(
-            EC.presence_of_element_located((By.XPATH, Config.SEARCH_BAR_XPATH))
-        )
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, Config.SEARCH_BAR_XPATH)))
+        logger.info('Search bar loaded.') 
         # Loop through partners
-        logger.info('Selecting partners.') 
+        logger.info('Selecting partners...') 
         for partner, coordinates in zip(Config.PARTNERS, list_coordinates):
             # Find search bar and send partner ID
             self.driver.find_element(by=By.XPATH, value=Config.SEARCH_BAR_XPATH).send_keys(partner)
@@ -98,8 +99,9 @@ class BookingBot:
         sched = BlockingScheduler(timezone=timezone)
         sched.add_job(self.submit, run_date=run_date)
         # Starts the Scheduled jobs
-        logger.info(f'Job running at{run_date} in progress...')
+        logger.info(f'Job ready to execute at {run_date}, in progress...')
         sched.start() 
+        logger.info(f'Job exectuted at {datetime.today()}.')
 
 def main(
         club_name: str, 
@@ -125,6 +127,8 @@ def main(
         self.switch_url(date, court_id)
         # Slot page
         self.select_slots(slot, offset_from_element=(By.ID, 'widget-home'))
+        # wait for partners page to be loaded
+        self.wait_partner_page_loaded(date, court_id)
         # Partners page?
         if self.driver.current_url != Config.URL_PARTNERS.format(date=date, court_id=court_id):
             logger.info(f'Connection failed to reach the partners page. Court {court_id} is currently not available.') 
@@ -137,7 +141,3 @@ def main(
             self.scheduled_submit(hour, minute, second, timezone)
             # log
             logger.info('Success! Booking done.') 
-
-        # except Exception:
-        #     logger.info('OOOPS! Booking failed.')
-
