@@ -17,6 +17,13 @@ def mouseover_coordinates(driver, offset_from_element, coordinates):
     # Chain actions
     actions = ActionChains(driver)
     # Initial coordinates
+    WebDriverWait(
+        driver, 10
+    ).until(
+        EC.presence_of_element_located(
+            (offset_from_element[0], offset_from_element[1])
+        )
+    )
     base_coordinates = driver.find_element(offset_from_element[0], offset_from_element[1])
     xi, yi = base_coordinates.location["x"], base_coordinates.location["y"]
     # Offset from base coordinates
@@ -32,9 +39,14 @@ class BookingBot:
         """First step, open session via URL"""
         url = Config.URL.format(club_name=club_name)
         self.driver.get(url)
-        WebDriverWait(self.driver, 10).until(EC.url_matches(url))
+        WebDriverWait(
+            self.driver, 10
+        ).until(
+            EC.url_matches(url)
+        )
         logger.info(f'Connection to {url}.') 
         logger.info(f'Login page loaded.') 
+        logger.info(f'Current page is {self.driver.current_url}.') 
 
     def login(self):
         """Login website"""
@@ -58,6 +70,7 @@ class BookingBot:
             self.driver.get(scheduled_url)
         logger.info(f'Connection to {scheduled_url}.') 
         logger.info(f'Slot page loaded.') 
+        logger.info(f'Current page is {self.driver.current_url}.') 
 
     def select_slots(self, slot, offset_from_element):
         """Book court with x and y coordinates"""
@@ -67,13 +80,24 @@ class BookingBot:
 
     def wait_partner_page_loaded(self, date, court_id):
         url = Config.URL_PARTNERS.format(date=date, court_id=court_id)
-        WebDriverWait(self.driver, 10).until(EC.url_matches(url))
+        WebDriverWait(
+            self.driver, 10
+        ).until(
+            EC.url_matches(url)
+        )
         logger.info('Partners page loaded.') 
+        logger.info(f'Current page is {self.driver.current_url}.') 
 
     def select_partners(self, offset_from_element, list_coordinates):
         """Select members (minimum 2)"""
         # Wait for search bar to be loaded
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, Config.SEARCH_BAR_XPATH)))
+        WebDriverWait(
+            self.driver, 10
+        ).until(
+            EC.presence_of_element_located(
+                (By.XPATH, Config.SEARCH_BAR_XPATH)
+            )
+        )
         logger.info('Search bar loaded.') 
         # Loop through partners
         logger.info('Selecting partners...') 
