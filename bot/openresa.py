@@ -44,39 +44,41 @@ class BookingBot:
         ).until(
             EC.url_matches(url)
         )
-        logger.info(f'Connection to {url}.') 
-        logger.info(f'Login page loaded.') 
-        logger.info(f'Current page is {self.driver.current_url}.') 
+        logger.info(f'Connection to {url}') 
+        logger.info(f'Login page loaded') 
+        logger.info(f'Current page is {self.driver.current_url}') 
 
     def login(self):
         """Login website"""
         # Enter login credentials
         self.driver.find_element(by=By.XPATH, value=Config.USERNAME_INPUT_XPATH).send_keys(Config.USERNAME)
-        logger.info('Username entered.') 
+        logger.info('Username entered') 
         # Enter passward
         self.driver.find_element(by=By.XPATH, value=Config.PASSWORD_INPUT_XPATH).send_keys(Config.PASSWORD)
-        logger.info('Password entered.') 
+        logger.info('Password entered') 
         # Submit the form
         self.driver.find_element(by=By.XPATH, value=Config.LOGIN_BUTTON_XPATH).click()
-        logger.info('Login submitted.') 
+        logger.info('Login submitted') 
 
     def switch_url(self, date, court_id):
         """Switch to the booking page"""
         scheduled_url = Config.URL_SCHEDULED.format(date=date, court_id=court_id)
         # Refresh page if not on the right page (x1)
+        logger.info(f'Connection to {scheduled_url}') 
         self.driver.get(scheduled_url)
+        logger.info(f'Current page is {self.driver.current_url}') 
         # Refresh page if not on the right page (x2)
         if self.driver.current_url != scheduled_url:
+            logger.info(f'Access to page failed. Try again...') 
+            logger.info(f'Connection to {scheduled_url}') 
             self.driver.get(scheduled_url)
-        logger.info(f'Connection to {scheduled_url}.') 
-        logger.info(f'Slot page loaded.') 
-        logger.info(f'Current page is {self.driver.current_url}.') 
+            logger.info(f'Current page is {self.driver.current_url}') 
 
     def select_slots(self, slot, offset_from_element):
         """Book court with x and y coordinates"""
         coordinates = Config.SLOTS[slot]
         mouseover_coordinates(self.driver, offset_from_element, coordinates)
-        logger.info(f'Slot selected.') 
+        logger.info(f'Slot selected') 
 
     def wait_partner_page_loaded(self, date, court_id):
         url = Config.URL_PARTNERS.format(date=date, court_id=court_id)
@@ -85,8 +87,8 @@ class BookingBot:
         ).until(
             EC.url_matches(url)
         )
-        logger.info('Partners page loaded.') 
-        logger.info(f'Current page is {self.driver.current_url}.') 
+        logger.info('Partners page loaded') 
+        logger.info(f'Current page is {self.driver.current_url}') 
 
     def select_partners(self, offset_from_element, list_coordinates):
         """Select members (minimum 2)"""
@@ -98,7 +100,7 @@ class BookingBot:
                 (By.XPATH, Config.SEARCH_BAR_XPATH)
             )
         )
-        logger.info('Search bar loaded.') 
+        logger.info('Search bar loaded') 
         # Loop through partners
         logger.info('Selecting partners...') 
         for partner, coordinates in zip(Config.PARTNERS, list_coordinates):
@@ -108,13 +110,13 @@ class BookingBot:
             mouseover_coordinates(self.driver, offset_from_element, coordinates)
             # Delete search bar before starting a new search
             self.driver.find_element(by=By.XPATH, value=Config.SEARCH_BAR_CLEARED_XPATH).click()
-        logger.info('Partners selected.')
+        logger.info('Partners selected')
 
     def submit(self):
         """Submit booking"""
         # Submit booking
         self.driver.find_element(by=By.XPATH, value=Config.SUBMIT_BUTTON_XPATH).click()
-        logger.info('Booking submitted.')
+        logger.info('Booking submitted')
 
     def scheduled_submit(self, hour=17, minute=0, second=0, timezone='Europe/Paris'):
         """Submit booking"""
@@ -125,7 +127,7 @@ class BookingBot:
         # Starts the Scheduled jobs
         logger.info(f'Job ready to execute at {run_date}, in progress...')
         sched.start() 
-        logger.info(f'Job exectuted at {datetime.today()}.')
+        logger.info(f'Job exectuted at {datetime.today()}')
 
 def main(
         club_name: str, 
