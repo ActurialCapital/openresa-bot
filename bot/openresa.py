@@ -67,11 +67,7 @@ class BookingBot:
             # Refresh page if not on the right page
             logger.info(f'Connection to {scheduled_url}') 
             self.driver.get(scheduled_url)
-            WebDriverWait(
-                self.driver, 10
-            ).until(
-                EC.url_matches(scheduled_url)
-            )
+ 
             logger.info(f'Current page is {self.driver.current_url}') 
 
 
