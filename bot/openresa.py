@@ -145,7 +145,7 @@ def main(
     # Launch the Chrome browser
     with webdriver.Chrome(options = chrome_options) as driver:
         # try:
-        self = webdriver.Chrome()
+        # self = webdriver.Chrome()
         # Initialize bot
         self = BookingBot(driver)
         # Open session
