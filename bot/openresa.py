@@ -63,19 +63,34 @@ class BookingBot:
     def switch_url(self, date, court_id):
         """Switch to the booking page"""
         scheduled_url = Config.URL_SCHEDULED.format(date=date, court_id=court_id)
-        while self.driver.current_url != scheduled_url:
-            # Refresh page if not on the right page
-            logger.info(f'Connection to {scheduled_url}') 
-            self.driver.get(scheduled_url)
- 
-            logger.info(f'Current page is {self.driver.current_url}') 
-
+        # while self.driver.current_url != scheduled_url:
+        # Refresh page if not on the right page
+        logger.info(f'Connection to {scheduled_url}') 
+        # self.driver.get(scheduled_url)
+        self.driver.execute_script(f'window.open("{scheduled_url}","_blank");')
+        logger.info(f'Current page is {self.driver.current_url}') 
 
     def select_slots(self, slot, offset_from_element):
         """Book court with x and y coordinates"""
         coordinates = Config.SLOTS[slot]
         mouseover_coordinates(self.driver, offset_from_element, coordinates)
         logger.info(f'Slot selected') 
+
+    def scheduled_slots(self, slot, offset_from_element, hour=17, minute=0, second=0, timezone='Europe/Paris'):
+        """Submit booking"""
+        # Add a timer to wait for the booking to be available
+        run_date = datetime.combine(datetime.today(), time(hour=hour, minute=minute, second=second))
+        sched = BlockingScheduler(timezone=timezone)
+        # Slot page
+        sched.add_job(
+            self.select_slots,
+            args=(slot, offset_from_element), 
+            run_date=run_date
+        )
+        # Starts the Scheduled jobs
+        logger.info(f'Job ready to be executed at {run_date}, in progress...')
+        sched.start() 
+        logger.info(f'Job exectuted at {datetime.today()}')
 
     def wait_partner_page_loaded(self, date, court_id):
         url = Config.URL_PARTNERS.format(date=date, court_id=court_id)
@@ -115,16 +130,7 @@ class BookingBot:
         self.driver.find_element(by=By.XPATH, value=Config.SUBMIT_BUTTON_XPATH).click()
         logger.info('Booking submitted')
 
-    def scheduled_submit(self, hour=17, minute=0, second=0, timezone='Europe/Paris'):
-        """Submit booking"""
-        # Add a timer to wait for the booking to be available
-        run_date = datetime.combine(datetime.today(), time(hour=hour, minute=minute, second=second))
-        sched = BlockingScheduler(timezone=timezone)
-        sched.add_job(self.submit, run_date=run_date)
-        # Starts the Scheduled jobs
-        logger.info(f'Job ready to execute at {run_date}, in progress...')
-        sched.start() 
-        logger.info(f'Job exectuted at {datetime.today()}')
+
 
 def main(
         club_name: str, 
@@ -139,7 +145,7 @@ def main(
     # Launch the Chrome browser
     with webdriver.Chrome(options = chrome_options) as driver:
         # try:
-        # driver = webdriver.Chrome()
+        self = webdriver.Chrome()
         # Initialize bot
         self = BookingBot(driver)
         # Open session
@@ -148,19 +154,26 @@ def main(
         self.login()
         # Switch booking slots page
         self.switch_url(date, court_id)
-        # Slot page
-        self.select_slots(slot, offset_from_element=(By.ID, 'widget-home'))
+        # scheduled slots
+        self.scheduled_slots(
+            slot, 
+            offset_from_element=(By.ID, 'widget-home'), 
+            hour=hour,
+            minute=minute, 
+            second=second, 
+            timezone=timezone
+        )
         # wait for partners page to be loaded
         self.wait_partner_page_loaded(date, court_id)
         # Partners page?
         if self.driver.current_url != Config.URL_PARTNERS.format(date=date, court_id=court_id):
             logger.info(f'Connection failed to reach the partners page. Court {court_id} is currently not available.') 
             # Stop the bot
-            logger.info('OOOPS! Booking failed.')
+            logger.info('OOOPS! Booking failed')
         else:
             # Select partners
             self.select_partners(offset_from_element=(By.ID, 'widget-menu'), list_coordinates=[(400, 238), (548, 322)])
             # scheduled booking and submit
             self.scheduled_submit(hour, minute, second, timezone)
             # log
-            logger.info('Success! Booking done.') 
+            logger.info('Success! Booking done') 

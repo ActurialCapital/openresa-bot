@@ -14,6 +14,7 @@ class Config:
     SEARCH_BAR_XPATH = '//*[@id="members-table-search"]/input'
     SEARCH_BAR_CLEARED_XPATH = '//*[@id="members-table-search"]/div[2]/div[1]/i'
     SUBMIT_BUTTON_XPATH = '//*[@id="reservation-toolbar-buttons"]/div/div/div[2]/button'
+    
     PARTNERS = [
         '1502845', # 'CHOUISSA, Alexandre': 
         '1487058', # 'RFID, 1': 
