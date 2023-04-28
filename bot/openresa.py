@@ -95,7 +95,7 @@ class BookingBot:
     def wait_partner_page_loaded(self, date, court_id):
         url = Config.URL_PARTNERS.format(date=date, court_id=court_id)
         WebDriverWait(
-            self.driver, 10
+            self.driver, 3
         ).until(
             EC.url_matches(url)
         )
@@ -106,7 +106,7 @@ class BookingBot:
         """Select members (minimum 2)"""
         # Wait for search bar to be loaded
         WebDriverWait(
-            self.driver, 10
+            self.driver, 3
         ).until(
             EC.presence_of_element_located(
                 (By.XPATH, Config.SEARCH_BAR_XPATH)
