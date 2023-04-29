@@ -76,7 +76,7 @@ class BookingBot:
         mouseover_coordinates(self.driver, offset_from_element, coordinates)
         logger.info(f'Slot selected') 
 
-    def scheduled_slots(self, slot, offset_from_element, hour=17, minute=0, second=0, timezone='Europe/Paris'):
+    def scheduled_slots(self, slot, offset_from_element, hour, minute, second, timezone):
         """Submit booking"""
         # Add a timer to wait for the booking to be available
         run_date = datetime.combine(datetime.today(), time(hour=hour, minute=minute, second=second))
@@ -174,6 +174,6 @@ def main(
             # Select partners
             self.select_partners(offset_from_element=(By.ID, 'widget-menu'), list_coordinates=[(400, 238), (548, 322)])
             # scheduled booking and submit
-            self.scheduled_submit(hour, minute, second, timezone)
+            self.submit()
             # log
             logger.info('Success! Booking done') 
